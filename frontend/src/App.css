@@ -752,3 +752,81 @@ html {
 }
 
 body { background-color: transparent; }
+
+/* ============================================================
+   COMMUNITY CARDS — uniform height + expandable description
+   Descriptions are free text (0 to ~4600 chars in the live data), so a
+   stretched grid row took its height from the wordiest civ and the section
+   looked ragged. Clamp every card to the same few lines and let the reader
+   open the ones they care about.
+   ============================================================ */
+.civ-grid {
+  /* Cards size themselves rather than stretching to the tallest in the row,
+     so expanding one card can't drag its neighbours taller. */
+  align-items: start;
+}
+
+.civ-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Reserve the worst case — a two-line name plus a language tag — so cards
+   don't step up and down depending on how long the civ's name is or whether
+   they filled the language field in. */
+/* 2 name lines (1.05rem x 1.6 x 2) + its margin + the language tag (0.75rem x 1.6)
+   comes to ~4.72rem, which is taller than the 52px logo — so reserve past it. */
+.civ-head { min-height: 4.8rem; }
+.civ-head-text .civ-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.civ-desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  overflow: hidden;
+  /* Reserve the full clamp height even for one-liners (and for the two civs
+     with no description at all) — this is what makes the boxes uniform. */
+  min-height: calc(0.88rem * 1.5 * 5);
+  margin-bottom: 0.75rem;
+  white-space: pre-line;   /* several descriptions carry real line breaks */
+}
+
+.civ-desc.is-open {
+  display: block;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+  overflow: visible;
+}
+
+/* Footer sits on the baseline of the card regardless of how much text is above.
+   min-height matches the taller of the two children (the button), so a card
+   without a "Read more" is exactly as tall as one with it. */
+.civ-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 1.6rem;
+}
+
+.civ-more {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: var(--accent-cyan);
+  background: none;
+  border: none;
+  padding: 0.15rem 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.civ-more:hover { color: #7fe9eb; text-decoration: underline; }
+.civ-more:focus-visible { outline: 2px solid var(--accent-cyan); outline-offset: 3px; }

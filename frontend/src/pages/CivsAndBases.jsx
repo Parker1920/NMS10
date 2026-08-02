@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import Modal from '../components/Modal'
@@ -57,6 +57,27 @@ function BaseCard({ base }) {
 
 function CommunityCard({ c }) {
   const link = normalizeCivLink(c.link_url)
+  const descRef = useRef(null)
+  const [expanded, setExpanded] = useState(false)
+  const [overflows, setOverflows] = useState(false)
+
+  // Descriptions are free text and run from 0 to ~4600 characters, so the grid
+  // row used to be as tall as whatever the wordiest civ wrote. The card clamps
+  // to a fixed number of lines instead; this measures whether there's anything
+  // hidden, so "Read more" only appears on cards that actually have more.
+  // Skipped while expanded — the clamp is off then, so nothing would overflow
+  // and the control would remove itself mid-read.
+  useEffect(() => {
+    if (expanded) return
+    const el = descRef.current
+    if (!el) return
+    const measure = () => setOverflows(el.scrollHeight > el.clientHeight + 1)
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [c.description, expanded])
+
   return (
     <article className="civ-card">
       <div className="civ-head">
@@ -70,12 +91,26 @@ function CommunityCard({ c }) {
           {c.language && <div className="civ-language">{c.language}</div>}
         </div>
       </div>
-      {c.description && <p className="civ-desc">{c.description}</p>}
-      {link ? (
-        <a className="civ-link" href={link} target="_blank" rel="noreferrer">Visit →</a>
-      ) : (
-        <a className="civ-link">—</a>
-      )}
+      {/* Always rendered, even when empty — it reserves the clamped height, which
+          is what keeps every card the same size. */}
+      <p ref={descRef} className={`civ-desc${expanded ? ' is-open' : ''}`}>{c.description}</p>
+      <div className="civ-foot">
+        {link ? (
+          <a className="civ-link" href={link} target="_blank" rel="noreferrer">Visit →</a>
+        ) : (
+          <a className="civ-link">—</a>
+        )}
+        {overflows && (
+          <button
+            type="button"
+            className="civ-more"
+            aria-expanded={expanded}
+            onClick={() => setExpanded((v) => !v)}
+          >
+            {expanded ? 'Read less' : 'Read more'}
+          </button>
+        )}
+      </div>
     </article>
   )
 }
