@@ -5,6 +5,7 @@ import Modal from '../components/Modal'
 import { useToast } from '../context/ToastContext'
 import { useIdentity } from '../context/IdentityContext'
 import { PLATFORMS as IDENTITY_PLATFORMS } from '../identity/identityStorage'
+import { normalizeCivLink } from '../utils/links'
 
 const PLATFORMS = [
   { value: 'all', label: 'All' },
@@ -55,6 +56,7 @@ function BaseCard({ base }) {
 }
 
 function CommunityCard({ c }) {
+  const link = normalizeCivLink(c.link_url)
   return (
     <article className="civ-card">
       <div className="civ-head">
@@ -69,8 +71,8 @@ function CommunityCard({ c }) {
         </div>
       </div>
       {c.description && <p className="civ-desc">{c.description}</p>}
-      {c.link_url ? (
-        <a className="civ-link" href={c.link_url} target="_blank" rel="noreferrer">Visit →</a>
+      {link ? (
+        <a className="civ-link" href={link} target="_blank" rel="noreferrer">Visit →</a>
       ) : (
         <a className="civ-link">—</a>
       )}
