@@ -717,3 +717,38 @@ img.civ-logo {
     font-size: 0.82rem;
   }
 }
+
+/* ============================================================
+   SITE BACKGROUND — nebula plate behind every page
+   Painted on <html> rather than <body> so v9's starfield gradients,
+   which live on body, keep rendering on top of it. body's opaque
+   --bg-deep fill is dropped to transparent for the same reason; the
+   colour stays on html so there's no flash before the photo loads.
+   The veil gradient keeps card/text contrast where v9 expects it.
+   ============================================================ */
+html {
+  background-color: var(--bg-deep);
+  background-image:
+    /* centre scrim — the content column runs down the middle, and v9's
+       --text-tertiary is too dark to survive the nebula's bright core.
+       Darkens only where text sits; the margins keep the full image. */
+    radial-gradient(
+      ellipse 68% 55% at 50% 38%,
+      rgba(7, 8, 13, 0.62) 0%,
+      rgba(7, 8, 13, 0.34) 55%,
+      rgba(7, 8, 13, 0) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(9, 10, 26, 0.34) 0%,
+      rgba(9, 10, 26, 0.48) 45%,
+      rgba(7, 8, 13, 0.72) 100%
+    ),
+    url('./assets/nms10-bg.jpg');
+  background-size: cover, cover, cover;
+  background-position: center center, center center, center center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-attachment: fixed, fixed, fixed;
+}
+
+body { background-color: transparent; }
