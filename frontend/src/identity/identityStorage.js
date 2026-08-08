@@ -34,15 +34,22 @@ export const PLATFORMS = [
 // DO NOT REORDER — values are positional and would break existing card URLs.
 // Appending to the END is safe (new indices only) — that's how we re-sync.
 //
-// Last re-synced 2026-07-21: Fox's set grew from 37 to 45 options (indices
-// 1-44). Index 3 (his "Galactic Hub") is intentionally kept null — GHUB was
-// removed from Haven at their request; we never surface it. Default is 0 (None)
-// so users choose; cards render fine without a sigil. Fox also has an NMS-10
+// Last re-synced 2026-08-07: Fox's set is now 66 options (indices 0-65).
+// 48-65 are the civs listed on nms10.online, drawn from the emblem handoff we
+// sent him — so the two sites now show the same set. Verified append-only
+// against the previous bundle: 0-47 are byte-identical, so no card URL already
+// in the wild and no stored identity changes meaning.
+//
+// Index 3 (his "Galactic Hub") is intentionally kept null — GHUB was removed
+// from Haven at their request; we never surface it. Default is 0 (None) so
+// users choose; cards render fine without a sigil. Fox also has an NMS-10
 // anniversary logo in his *sticker* set (the `st=` param) if we ever want it.
 //
 // The card URL references Fox's embedded PNGs by index only — it can't take a
 // custom image. For a civ Fox hasn't uploaded there's no `s=`; ask him to add
-// the emblem, then append the index he hands back here.
+// the emblem, then append the index he hands back here. Still outstanding:
+// Papy_tof — the emblem they gave us is a screenshot of in-game glyph text,
+// not a logo, so Fox couldn't draw it. Needs real art from them first.
 export const SIGILS = [
   'None',
   'FoxTech',
@@ -90,6 +97,29 @@ export const SIGILS = [
   'Royal Space Society',
   'Civitas Archivum XVI',
   'Imperium Umbra',
+  // --- added by Fox since the July sync (re-synced 2026-08-07) ---
+  'Américo-AvfPlay',
+  'N//X',
+  'Dragonauts ~zz664~',
+  // --- the nms10.online civ set Fox drew from our handoff (2026-08-07) ---
+  'Atlas CSD/ETARC',
+  'Bunsmasters',
+  'Confederación Lux Aegis',
+  'Economía Interestelar',
+  'Eisvana',
+  'Geknip Gang',
+  "GerMan's Sky",
+  'GoodGuysFree!',
+  'House Atreides Osal',
+  'MORINGOSOS',
+  'NMS BABEL',
+  'NMSCord Hub',
+  'NMS Latinoamérica',
+  "No Man's High HUB",
+  'POD MAN SKY',
+  'Thank You Hello Games',
+  'The Galactical Order',
+  'Tugarv Compendium',
 ]
 
 const DEFAULT_RACE = 5      // Traveller — fits the anniversary theme
