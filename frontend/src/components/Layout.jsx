@@ -86,7 +86,9 @@ function Footer() {
     <footer className="site-footer">
       <div className="container footer-row">
         <span>© 2026 Voyager's Haven · Built for the NMS10 collaborative</span>
-        <span>Banner &amp; logo: Nerozii &amp; Mr Sinister</span>
+        {/* Joint credit — the FAQ's "what is the emblem" answer names Mr Sinister
+            and Dashboard Devil for the logo, so the footer has to match. */}
+        <span>Banner &amp; logo: Nerozii, Mr Sinister &amp; Dashboard Devil</span>
       </div>
     </footer>
   )
