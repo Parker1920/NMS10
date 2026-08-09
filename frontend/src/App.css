@@ -54,6 +54,41 @@
   max-width: 720px;
   width: 100%;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  /* Never taller than the screen — short viewports (768p laptops at 125-150%
+     Windows scaling) scroll the fields inside the dialog instead of pushing
+     the Save button offscreen. */
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 5rem);
+  max-height: calc(100dvh - 5rem);
+}
+.modal-header { flex: none; }
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.modal-body > form {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+/* The fields scroll; the header and Cancel/Save stay pinned on screen. */
+.modal-body > form > .form-grid {
+  overflow-y: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+}
+.modal-body > form > .form-actions { flex: none; }
+/* Short-but-wide viewports (scaled laptop displays): shed the big top gap and
+   chrome padding so the dialog gets as much of the screen as possible. */
+@media (max-height: 700px) {
+  .modal-backdrop { padding: 1.5rem 1rem; }
+  .modal {
+    padding: 1.25rem 1.5rem;
+    max-height: calc(100vh - 3rem);
+    max-height: calc(100dvh - 3rem);
+  }
 }
 .modal-header {
   display: flex;
@@ -681,7 +716,11 @@ img.civ-logo {
 
   /* Modals get smaller padding so the form isn't pushed offscreen */
   .modal-backdrop { padding: 1rem 0.5rem; }
-  .modal { padding: 1.25rem; }
+  .modal {
+    padding: 1.25rem;
+    max-height: calc(100vh - 2rem);
+    max-height: calc(100dvh - 2rem);
+  }
 
   /* Footer stacks neatly instead of wrapping awkwardly */
   .footer-row {

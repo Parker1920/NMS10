@@ -27,7 +27,7 @@ export default function Modal({ open, title, onClose, children, wide }) {
             ×
           </button>
         </div>
-        {children}
+        <div className="modal-body">{children}</div>
       </div>
     </div>,
     document.body
